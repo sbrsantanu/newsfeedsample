@@ -15,6 +15,9 @@
 		740815C31A5874BC00B3F465 /* NewsFeedSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 740815C21A5874BC00B3F465 /* NewsFeedSampleTests.m */; };
 		740815D21A5877EF00B3F465 /* NewsFeedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 740815D11A5877EF00B3F465 /* NewsFeedTableViewController.m */; };
 		740815D51A5879B500B3F465 /* NewsFeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 740815D41A5879B500B3F465 /* NewsFeedCell.m */; };
+		740815DE1A5884E700B3F465 /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 740815D81A5884E700B3F465 /* CJSONDeserializer.m */; };
+		740815DF1A5884E700B3F465 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 740815DA1A5884E700B3F465 /* CJSONSerializer.m */; };
+		740815E01A5884E700B3F465 /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 740815DD1A5884E700B3F465 /* NSDictionary_JSONExtensions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +46,13 @@
 		740815D11A5877EF00B3F465 /* NewsFeedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeedTableViewController.m; sourceTree = "<group>"; };
 		740815D31A5879B500B3F465 /* NewsFeedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeedCell.h; sourceTree = "<group>"; };
 		740815D41A5879B500B3F465 /* NewsFeedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeedCell.m; sourceTree = "<group>"; };
+		740815D71A5884E700B3F465 /* CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDeserializer.h; sourceTree = "<group>"; };
+		740815D81A5884E700B3F465 /* CJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONDeserializer.m; sourceTree = "<group>"; };
+		740815D91A5884E700B3F465 /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONSerializer.h; sourceTree = "<group>"; };
+		740815DA1A5884E700B3F465 /* CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONSerializer.m; sourceTree = "<group>"; };
+		740815DB1A5884E700B3F465 /* JSONRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONRepresentation.h; sourceTree = "<group>"; };
+		740815DC1A5884E700B3F465 /* NSDictionary_JSONExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDictionary_JSONExtensions.h; sourceTree = "<group>"; };
+		740815DD1A5884E700B3F465 /* NSDictionary_JSONExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDictionary_JSONExtensions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +134,7 @@
 		740815CC1A58760B00B3F465 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				740815D61A5884C900B3F465 /* TouchJson */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -154,6 +165,20 @@
 				740815AA1A5874BC00B3F465 /* NewsFeedSample.xcdatamodeld */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		740815D61A5884C900B3F465 /* TouchJson */ = {
+			isa = PBXGroup;
+			children = (
+				740815D71A5884E700B3F465 /* CJSONDeserializer.h */,
+				740815D81A5884E700B3F465 /* CJSONDeserializer.m */,
+				740815D91A5884E700B3F465 /* CJSONSerializer.h */,
+				740815DA1A5884E700B3F465 /* CJSONSerializer.m */,
+				740815DB1A5884E700B3F465 /* JSONRepresentation.h */,
+				740815DC1A5884E700B3F465 /* NSDictionary_JSONExtensions.h */,
+				740815DD1A5884E700B3F465 /* NSDictionary_JSONExtensions.m */,
+			);
+			name = TouchJson;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,10 +280,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				740815E01A5884E700B3F465 /* NSDictionary_JSONExtensions.m in Sources */,
+				740815DE1A5884E700B3F465 /* CJSONDeserializer.m in Sources */,
 				740815D21A5877EF00B3F465 /* NewsFeedTableViewController.m in Sources */,
 				740815A91A5874BC00B3F465 /* AppDelegate.m in Sources */,
 				740815A61A5874BC00B3F465 /* main.m in Sources */,
 				740815D51A5879B500B3F465 /* NewsFeedCell.m in Sources */,
+				740815DF1A5884E700B3F465 /* CJSONSerializer.m in Sources */,
 				740815AC1A5874BC00B3F465 /* NewsFeedSample.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
