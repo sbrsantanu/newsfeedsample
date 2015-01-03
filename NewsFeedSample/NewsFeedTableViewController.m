@@ -7,8 +7,16 @@
 //
 
 #import "NewsFeedTableViewController.h"
+#import "CJSONDeserializer.h"
+#import "NewsFeedCell.h"
+#import "Newsfeed.h"
 
-@interface NewsFeedTableViewController ()
+@interface NewsFeedTableViewController (){
+    
+    NSMutableArray *rows;
+    Newsfeed *newsItem;
+
+}
 
 @end
 
@@ -22,7 +30,22 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.title = @"Title";
+    
+    NSString *jsonString = @"https://dl.dropboxusercontent.com/u/746330/facts.json";
+    NSURL *url=[NSURL URLWithString:jsonString];
+    
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"facts" ofType:@"json"];
+    NSString *myJSON = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
+    NSError *error =  nil;
+    
+    NSDictionary *allCourses = [NSJSONSerialization JSONObjectWithData:[myJSON dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
+   
+    rows = allCourses[@"rows"];
+    newsItem = [[Newsfeed alloc] init];
+    
+    
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -40,12 +63,39 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 1;
+    return rows.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    NewsFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    
+    if (!cell) {
+        cell = [[NewsFeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    }
+    
+    NSMutableDictionary *d=(NSMutableDictionary*)[rows objectAtIndex:indexPath.row];
+    
+    if([d valueForKey:@"title"]==[NSNull null]) {
+        cell.lblMainTitle.text=@"";
+    }
+    else
+    {
+        cell.lblMainTitle.text =[d valueForKey:@"title"];
+    }
+    
+    
+    if([d valueForKey:@"description"]==[NSNull null]) {
+        cell.lblSubTitle.text=@"";
+    }
+    else
+    {
+        cell.lblSubTitle.text =[d valueForKey:@"description"];
+    }
+    
+   
+    
+    
     
     // Configure the cell...
     
