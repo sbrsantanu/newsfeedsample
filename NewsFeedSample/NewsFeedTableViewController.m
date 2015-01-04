@@ -29,7 +29,7 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    self.navigationItem.title = @"Title";
+    
     
     NSString *jsonString = @"https://dl.dropboxusercontent.com/u/746330/facts.json";
     NSURL *url=[NSURL URLWithString:jsonString];
@@ -40,6 +40,7 @@
     
     NSDictionary *allCourses = [NSJSONSerialization JSONObjectWithData:[myJSON dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
    
+    self.navigationItem.title = [allCourses valueForKey:@"title"];
     rows = allCourses[@"rows"];
     newsItem = [[Newsfeed alloc] init];
     
@@ -67,6 +68,7 @@
 }
 
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NewsFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
@@ -86,11 +88,11 @@
     
     
     if([d valueForKey:@"description"]==[NSNull null]) {
-        cell.lblSubTitle.text=@"";
+        cell.lblSubtitle.text=@"";
     }
     else
     {
-        cell.lblSubTitle.text =[d valueForKey:@"description"];
+        cell.lblSubtitle.text =[d valueForKey:@"description"];
     }
     
    

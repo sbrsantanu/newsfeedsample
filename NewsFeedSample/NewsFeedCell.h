@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface NewsFeedCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *lblMainTitle;
-@property (weak, nonatomic) IBOutlet UILabel *lblSubTitle;
+
+@property (weak, nonatomic) IBOutlet UITextView *lblSubtitle;
+
 @property (weak, nonatomic) IBOutlet UIImageView *imgNews;
 
 @end
