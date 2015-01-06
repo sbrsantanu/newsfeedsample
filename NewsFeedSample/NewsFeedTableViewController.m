@@ -10,17 +10,10 @@
 #import  "CJSONDeserializer.h"
 #import  "NewsFeedCell.h"
 #include "NSDictionary_JSONExtensions.h"
-
 #import "UIImageView+WebCache.h"
 
-
-
-
-
 @interface NewsFeedTableViewController (){
-    
     NSMutableArray *rows;
-  
 }
 
 @end
@@ -30,13 +23,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self fetchAllData];
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:refreshControl];
+    
+    // Reload issues button
+    UIBarButtonItem *button = [[UIBarButtonItem alloc]
+                               initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                               target:self
+                               action:@selector(fetchAllData)];
+    self.navigationItem.rightBarButtonItem = button;
     
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    
+}
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
     NSURL *url = [NSURL URLWithString:@"https://dl.dropboxusercontent.com/u/746330/facts.json" ];
     NSData *jsonData = [NSData dataWithContentsOfURL:url];
     NSDictionary *dictionary;
-    
     NSString* newStr = [[NSString alloc] initWithData:jsonData encoding:NSWindowsCP1250StringEncoding];
     if(jsonData != nil)
     {
@@ -49,8 +56,27 @@
             rows = dictionary[@"rows"];
         }
     }
-    
-    
+
+    [refreshControl endRefreshing];
+}
+
+-(void)fetchAllData{
+    NSURL *url = [NSURL URLWithString:@"https://dl.dropboxusercontent.com/u/746330/facts.json" ];
+    NSData *jsonData = [NSData dataWithContentsOfURL:url];
+    NSDictionary *dictionary;
+    NSString* newStr = [[NSString alloc] initWithData:jsonData encoding:NSWindowsCP1250StringEncoding];
+    if(jsonData != nil)
+    {
+        NSError *error = nil;
+        dictionary =  [NSDictionary dictionaryWithJSONString:newStr error:&error];
+        
+        if (error == nil)
+        {
+            self.navigationItem.title = [dictionary valueForKey:@"title"];
+            rows = dictionary[@"rows"];
+        }
+    }
+
     
 }
 
