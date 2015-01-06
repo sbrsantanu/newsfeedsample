@@ -6,16 +6,21 @@
 //  Copyright (c) 2015 com.pactera.iosteam. All rights reserved.
 //
 
-#import "NewsFeedTableViewController.h"
-#import "CJSONDeserializer.h"
-#import "NewsFeedCell.h"
-#import "Newsfeed.h"
+#import  "NewsFeedTableViewController.h"
+#import  "CJSONDeserializer.h"
+#import  "NewsFeedCell.h"
+#include "NSDictionary_JSONExtensions.h"
+
+#import "UIImageView+WebCache.h"
+
+
+
+
 
 @interface NewsFeedTableViewController (){
     
     NSMutableArray *rows;
-    Newsfeed *newsItem;
-
+  
 }
 
 @end
@@ -25,28 +30,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    NSURL *url = [NSURL URLWithString:@"https://dl.dropboxusercontent.com/u/746330/facts.json" ];
+    NSData *jsonData = [NSData dataWithContentsOfURL:url];
+    NSDictionary *dictionary;
     
+    NSString* newStr = [[NSString alloc] initWithData:jsonData encoding:NSWindowsCP1250StringEncoding];
+    if(jsonData != nil)
+    {
+        NSError *error = nil;
+        dictionary =  [NSDictionary dictionaryWithJSONString:newStr error:&error];
+        
+        if (error == nil)
+        {
+            self.navigationItem.title = [dictionary valueForKey:@"title"];
+            rows = dictionary[@"rows"];
+        }
+    }
     
-    NSString *jsonString = @"https://dl.dropboxusercontent.com/u/746330/facts.json";
-    NSURL *url=[NSURL URLWithString:jsonString];
-    
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"facts" ofType:@"json"];
-    NSString *myJSON = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
-    NSError *error =  nil;
-    
-    NSDictionary *allCourses = [NSJSONSerialization JSONObjectWithData:[myJSON dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
-   
-    self.navigationItem.title = [allCourses valueForKey:@"title"];
-    rows = allCourses[@"rows"];
-    newsItem = [[Newsfeed alloc] init];
     
     
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -56,97 +62,62 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
+
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
+
     // Return the number of rows in the section.
+    
     return rows.count;
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+   
+    
+    if([[rows objectAtIndex:indexPath.row] objectForKey:@"description"] == [NSNull null]){
+        return 140;
+    }else{
+        NSString *text = [[rows objectAtIndex:indexPath.row] objectForKey:@"description"];
+        CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:14]
+                       constrainedToSize:CGSizeMake(207, CGFLOAT_MAX)];
+        return 100 + size.height;
+    }
+    
+}
+
 
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NewsFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
-    if (!cell) {
+    
+    NewsFeedCell *cell = (NewsFeedCell *)[self.tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    NSMutableDictionary *d=(NSMutableDictionary*)[rows objectAtIndex:indexPath.row];
+    
+    if(cell == nil){
         cell = [[NewsFeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    NSMutableDictionary *d=(NSMutableDictionary*)[rows objectAtIndex:indexPath.row];
-    
-    if([d valueForKey:@"title"]==[NSNull null]) {
-        cell.lblMainTitle.text=@"";
-    }
-    else
+    if(([d valueForKey:@"title"]!=[NSNull null]))
     {
-        cell.lblMainTitle.text =[d valueForKey:@"title"];
+        cell.Title.text =[d valueForKey:@"title"];
     }
     
-    
-    if([d valueForKey:@"description"]==[NSNull null]) {
-        cell.lblSubtitle.text=@"";
-    }
-    else
+    if(([d valueForKey:@"description"]!=[NSNull null]))
     {
-        cell.lblSubtitle.text =[d valueForKey:@"description"];
+        cell.Context.text =[d valueForKey:@"description"];
     }
     
-   
-    
-    
-    
-    // Configure the cell...
+    if(([d valueForKey:@"imageHref"]!=[NSNull null]))
+    {
+        [cell.imgNews setImageWithURL:[NSURL URLWithString:[d valueForKey:@"imageHref"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] ];
+    }
     
     return cell;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

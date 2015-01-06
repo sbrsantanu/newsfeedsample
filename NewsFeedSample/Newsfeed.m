@@ -15,4 +15,6 @@
 @dynamic description;
 @dynamic imageHref;
 
+
+
 @end

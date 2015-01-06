@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NewsFeedCell.h"
+#import "UIImageView+WebCache.h"
+
 
 @interface NewsFeedTableViewController : UITableViewController
+
+@property (strong) NewsFeedCell *cellPrototype;
 
 
 @end

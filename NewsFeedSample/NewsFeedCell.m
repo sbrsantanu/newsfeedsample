@@ -7,17 +7,25 @@
 //
 
 #import "NewsFeedCell.h"
+#import "UIImageView+WebCache.h"
 
 @implementation NewsFeedCell
 
-- (void)awakeFromNib {
-    // Initialization code
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    CGSize expectedSize = [self.Context.text boundingRectWithSize:CGSizeMake(207, 250) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName: self.Context.font} context:nil].size;
+    self.Context.frame = CGRectMake(16, 36, 207, expectedSize.height+30);
+    
+    _requiredCellHeight = self.Context.frame.size.height;
+    
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
-}
+
+
+
+
 
 @end

@@ -7,13 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RWLabel.h"
+#import "UIImageView+WebCache.h"
 
 @interface NewsFeedCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *lblMainTitle;
+@property (nonatomic, strong) UILabel *ContentText;
 
-@property (weak, nonatomic) IBOutlet UITextView *lblSubtitle;
+@property (weak, nonatomic) IBOutlet UITextView *Context;
+
+
+@property (weak, nonatomic) IBOutlet UILabel *Title;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgNews;
+
+@property (nonatomic) float requiredCellHeight;
+
+
+
 
 @end
