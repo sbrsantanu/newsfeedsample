@@ -11,12 +11,14 @@
 #import  "NewsFeedCell.h"
 #include "NSDictionary_JSONExtensions.h"
 #import "UIImageView+WebCache.h"
+#import "AppConstant.h"
 
 @interface NewsFeedTableViewController (){
     NSMutableArray *rows;
 }
-
 @end
+
+
 
 @implementation NewsFeedTableViewController
 
@@ -40,8 +42,9 @@
     
 }
 
+//PULL REFRESH FUNCTION
 - (void)refresh:(UIRefreshControl *)refreshControl {
-    NSURL *url = [NSURL URLWithString:@"https://dl.dropboxusercontent.com/u/746330/facts.json" ];
+    NSURL *url = [NSURL URLWithString:WEB_SERVICE_LINK];
     NSData *jsonData = [NSData dataWithContentsOfURL:url];
     NSDictionary *dictionary;
     NSString* newStr = [[NSString alloc] initWithData:jsonData encoding:NSWindowsCP1250StringEncoding];
@@ -52,16 +55,17 @@
         
         if (error == nil)
         {
-            self.navigationItem.title = [dictionary valueForKey:@"title"];
-            rows = dictionary[@"rows"];
+            self.navigationItem.title = [dictionary valueForKey:TITLE];
+            rows = dictionary[ROWS];
         }
     }
 
     [refreshControl endRefreshing];
 }
 
+//FETCHE ALL DATA FROM JSON OBJECT AND PUT INSIDE DICTIONARY
 -(void)fetchAllData{
-    NSURL *url = [NSURL URLWithString:@"https://dl.dropboxusercontent.com/u/746330/facts.json" ];
+    NSURL *url = [NSURL URLWithString:WEB_SERVICE_LINK];
     NSData *jsonData = [NSData dataWithContentsOfURL:url];
     NSDictionary *dictionary;
     NSString* newStr = [[NSString alloc] initWithData:jsonData encoding:NSWindowsCP1250StringEncoding];
@@ -72,8 +76,8 @@
         
         if (error == nil)
         {
-            self.navigationItem.title = [dictionary valueForKey:@"title"];
-            rows = dictionary[@"rows"];
+            self.navigationItem.title = [dictionary valueForKey:TITLE];
+            rows = dictionary[ROWS];
         }
     }
 
@@ -102,11 +106,11 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
    
-    
-    if([[rows objectAtIndex:indexPath.row] objectForKey:@"description"] == [NSNull null]){
+    //CALCULATE SELF HEIGHT OF EACH ROWS
+    if([[rows objectAtIndex:indexPath.row] objectForKey:DESCRIPTION] == [NSNull null]){
         return 140;
     }else{
-        NSString *text = [[rows objectAtIndex:indexPath.row] objectForKey:@"description"];
+        NSString *text = [[rows objectAtIndex:indexPath.row] objectForKey:DESCRIPTION];
         CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:14]
                        constrainedToSize:CGSizeMake(207, CGFLOAT_MAX)];
         return 100 + size.height;
@@ -127,19 +131,19 @@
         cell = [[NewsFeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    if(([d valueForKey:@"title"]!=[NSNull null]))
+    if(([d valueForKey:TITLE]!=[NSNull null]))
     {
-        cell.Title.text =[d valueForKey:@"title"];
+        cell.Title.text =[d valueForKey:TITLE];
     }
     
-    if(([d valueForKey:@"description"]!=[NSNull null]))
+    if(([d valueForKey:DESCRIPTION]!=[NSNull null]))
     {
-        cell.Context.text =[d valueForKey:@"description"];
+        cell.Context.text =[d valueForKey:DESCRIPTION];
     }
     
-    if(([d valueForKey:@"imageHref"]!=[NSNull null]))
+    if(([d valueForKey:IMAGE]!=[NSNull null]))
     {
-        [cell.imgNews setImageWithURL:[NSURL URLWithString:[d valueForKey:@"imageHref"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] ];
+        [cell.imgNews setImageWithURL:[NSURL URLWithString:[d valueForKey:IMAGE]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] ];
     }
     
     return cell;

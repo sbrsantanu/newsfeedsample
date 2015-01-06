@@ -105,6 +105,7 @@
 		7448765F1A5B5E0C0036ACF6 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		744876701A5B5EA10036ACF6 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		744876721A5B67B10036ACF6 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		744876771A5B85750036ACF6 /* AppConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConstant.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +156,7 @@
 				740815A71A5874BC00B3F465 /* AppDelegate.h */,
 				740815A81A5874BC00B3F465 /* AppDelegate.m */,
 				740815A31A5874BC00B3F465 /* Supporting Files */,
+				744876771A5B85750036ACF6 /* AppConstant.h */,
 			);
 			path = NewsFeedSample;
 			sourceTree = "<group>";
